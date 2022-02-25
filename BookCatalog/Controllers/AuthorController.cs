@@ -12,7 +12,7 @@ namespace BookCatalog.Controllers
 
         public AuthorController()
         {
-            authorRepo = AuthorRepo.getInstance();
+            authorRepo = new AuthorRepo();
         }
 
         [HttpGet]

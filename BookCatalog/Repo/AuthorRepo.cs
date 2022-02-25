@@ -1,39 +1,21 @@
 ﻿using BookCatalog.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookCatalog.Repo
 {
     public class AuthorRepo : IAuthor
     {
-        private List<Author> _authors;
-        public static AuthorRepo Instance;
+       
 
 
-        private AuthorRepo()
+        public AuthorRepo()
         {
-            _authors = new List<Author>()
-            {
-                new Author() { Id = Guid.NewGuid(), NameAuthor = "J.R.R Tolkien" },
-                new Author() { Id = Guid.NewGuid(), NameAuthor = "C.S Lewis"},
-                new Author() { Id = Guid.NewGuid(), NameAuthor = "J.K Rowling"}
-            };
+ 
         }
-
-        public static AuthorRepo getInstance()
-        {
-            if (Instance == null)
-            {
-                Instance = new AuthorRepo();
-            }
-            return Instance;
-        }
-
 
         public Author CreateAuthor(Author newAuthor)
         {
-            newAuthor.Id = Guid.NewGuid();
-            _authors.Add(newAuthor);
-
-            return newAuthor;
+            throw new NotImplementedException();
         }
 
         public void DeleteAuthor(Guid id)
@@ -43,18 +25,18 @@ namespace BookCatalog.Repo
 
         public Author GetAuthorById(Guid id)
         {
-            return _authors.Find(author => author.Id == id);
+            throw new NotImplementedException();
         }
 
         public Author GetAuthorByName(string name)
         {
 
-            return _authors.Find(author => author.NameAuthor.Equals(name));
+            throw new NotImplementedException();
         }
 
         public List<Author> GetAuthors()
         {
-            return _authors;
+            throw new NotImplementedException();
         }
 
         public void UpdateAuthor(Guid id, Author newAuthor)

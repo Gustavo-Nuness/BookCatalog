@@ -1,36 +1,30 @@
 ﻿using BookCatalog.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookCatalog.Repo
 {
-    public class BookRepo : IBook
+    public class BookRepo : DbContext, IBook
     {
-        private List<Book> _books;
         private IBookCategory _bookCategoryRepo;
         private IAuthor _authorRepo;
-        
 
-        public BookRepo(IBookCategory bookCategoryRepo)
+        public DbSet<Book> books { get; set; }
+
+        public BookRepo() 
         {
-            _bookCategoryRepo = bookCategoryRepo;
-            _authorRepo = AuthorRepo.getInstance();
-         
-            _books = new()
-            {
-                new Book
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "O Senhor dos anéis",
-                    Price = 60,
-                    Category = _bookCategoryRepo.GetBookCategoryByDescription("Fantasia"),
-
-                }
-
-            };
-            var teste = _authorRepo.GetAuthorByName("J.R.R Tolkien");
-            _books[0].Authors.Add(_authorRepo.GetAuthorByName("J.R.R Tolkien"));
-
+            _bookCategoryRepo = new BookCategoryRepo();
+            _authorRepo = new AuthorRepo();
 
         }
+
+        public BookRepo (DbContextOptions<BookRepo> optionsDatabase) : base(optionsDatabase)
+        {
+            _bookCategoryRepo = new BookCategoryRepo();
+            _authorRepo = new AuthorRepo();
+
+        }
+
+        
         public void CreateBook(Book book)
         {
             BookCategory category =
@@ -45,41 +39,41 @@ namespace BookCatalog.Repo
                 book.Category = category;
             }
 
-            _books.Add(book);
+            books.Add(book);
         }
 
         public void DeleteBook(Guid id)
         {
-            var bookIndex = _books.FindIndex(x => x.Id == id);
-            if (bookIndex > -1)
-                _books.RemoveAt(bookIndex);
+            //var bookIndex = books.FindIndex(x => x.Id == id);
+            //if (bookIndex > -1)
+                //books.RemoveAt(bookIndex);
         }
 
         public Book GetBook(Guid id)
         {
-            var book = _books.Where(x => x.Id == id).SingleOrDefault();
+            var book = books.Where(x => x.Id == id).SingleOrDefault();
             return book;
         }
 
         public List<Book> getBooksByAuthor(Guid idAuthor)
         {
-            Author author = _authorRepo.GetAuthorById(idAuthor);
-            List<Book> books = _books.Where(book => book.Authors.IndexOf(author) > -1).ToList();
-            return books;
+            //Author author = _authorRepo.GetAuthorById(idAuthor);
+            //List<Book> books = books.Where(book => book.Authors.IndexOf(author) > -1).ToList();
+            return null;
         }
 
         public IEnumerable<Book> GetBooks()
         {
-            return _books;
+            return books;
 
         }
 
         public void UpdateBook(Guid id, Book book)
         {
 
-            var bookIndex = _books.FindIndex(x => x.Id == id);
-            if (bookIndex > -1)
-                _books[bookIndex] = book;
+            //var bookIndex = books.FindIndex(x => x.Id == id);
+            //if (bookIndex > -1)
+              //  books[bookIndex] = book;
 
         }
     }

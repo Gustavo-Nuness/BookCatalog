@@ -1,4 +1,5 @@
 using BookCatalog.Repo;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IBook, BookRepo>();
-builder.Services.AddSingleton<IBookCategory,BookCategoryRepo>();
-//builder.Services.AddSingleton<IAuthor, AuthorRepo>(); 
+
+builder.Services.AddDbContext<BookRepo>(
+    opts => opts.UseMySQL(builder.Configuration.GetConnectionString("BookCatalogDatabaseConnection")));
+
 
 var app = builder.Build();
 

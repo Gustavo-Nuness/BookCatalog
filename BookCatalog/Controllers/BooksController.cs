@@ -13,11 +13,11 @@ namespace BookCatalog.Controllers
         private IBookCategory _BookCategory;
         private IAuthor _AuthorRepo;
 
-        public BooksController(IBook bookRepo, IBookCategory bookCategory)
+        public BooksController()
         {
-            _BookRepo = bookRepo;
-            _BookCategory = bookCategory;
-            _AuthorRepo = AuthorRepo.getInstance();
+            _BookRepo = new BookRepo();
+            _BookCategory = new BookCategoryRepo();
+            _AuthorRepo = new AuthorRepo();
         }
 
         [HttpGet]
